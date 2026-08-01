@@ -1,0 +1,6 @@
+# 📍 "Config Server" notebook — account-service ke business rules yahan centrally hain.
+# Isko change karne ke liye account-service ko redeploy nahi karna, sirf refresh karna hota hai.
+banking:
+  account:
+    min-opening-balance: 500
+    max-accounts-per-customer: 5

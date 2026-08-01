@@ -1,0 +1,13 @@
+server:
+  port: 8761
+
+spring:
+  application:
+    name: eureka-server
+
+eureka:
+  client:
+    register-with-eureka: false  # Eureka server khud ko register nahi karta
+    fetch-registry: false
+  server:
+    enable-self-preservation: false  # local dev ke liye — production mein true rakho

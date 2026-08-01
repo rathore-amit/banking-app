@@ -1,0 +1,5 @@
+# 📍 "Config Server" notebook — transaction-service ke business rules
+banking:
+  transfer:
+    max-daily-limit: 100000
+    fraud-check-threshold: 50000

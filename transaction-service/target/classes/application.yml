@@ -1,0 +1,62 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: transaction-service
+  config:
+    import: optional:configserver:http://localhost:8888
+  datasource:
+    url: jdbc:postgresql://localhost:5432/transaction_db
+    username: bankuser
+    password: bankpass
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: transaction-service-group
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
+banking:
+  transfer:
+    max-daily-limit: 100000
+    fraud-check-threshold: 50000
+
+# 📍 Concept: "Circuit Breaker" notebook — poore config ka practical mapping
+resilience4j:
+  circuitbreaker:
+    instances:
+      accountService:
+        failure-rate-threshold: 50          # 50% calls fail hon to circuit trip ho
+        slow-call-rate-threshold: 80
+        slow-call-duration-threshold: 2s
+        wait-duration-in-open-state: 15s    # Open state mein 15s cool-down
+        permitted-number-of-calls-in-half-open-state: 3
+        sliding-window-size: 10             # last 10 calls ke basis pe decide
+  retry:
+    instances:
+      accountService:
+        max-attempts: 2
+        wait-duration: 500ms
+        enable-exponential-backoff: true    # retry storm se bachne ke liye
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, metrics, circuitbreakers, prometheus
+  endpoint:
+    health:
+      show-details: always
+  health:
+    circuitbreakers:
+      enabled: true

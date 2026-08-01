@@ -1,0 +1,13 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: config-server
+  profiles:
+    active: native   # Git repo ki jagah local filesystem se config serve karo (demo ke liye simple)
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/config-repo/
