@@ -137,5 +137,16 @@ services:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
 
+  # ---------- FRONTEND ----------
+  banking-frontend:
+    build:
+      context: ./banking-frontend
+      dockerfile: Dockerfile
+    container_name: banking-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api-gateway
+
 volumes:
   postgres-data:
